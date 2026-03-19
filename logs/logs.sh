@@ -6,7 +6,8 @@
 ## $ DEBUG=1 log_debug "Debug information"
 ## [2026-03-18 14:30:00] DEBUG: Debug information
 log_debug() {
-  [[ -n "${DEBUG:-}" ]] && _log DEBUG "$@"
+  [[ -z "${DEBUG:-}" ]] && return
+  _log DEBUG "$@"
 }
 
 ## Print an info message to stderr.
@@ -40,11 +41,10 @@ log_error() {
 ## When NO_LOG_TIMESTAMP is set, do nothing.
 _log_timestamp() {
   [[ -n "${NO_LOG_TIMESTAMP:-}" ]] && return
-
   printf '[%s] ' "$(date +'%Y-%m-%d %H:%M:%S')"
 }
 
-## Internal helper: print a log line to stderr.
+## Print a log line to stderr.
 _log() {
   local level="$1"
   shift

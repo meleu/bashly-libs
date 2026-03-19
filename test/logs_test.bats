@@ -16,6 +16,7 @@ setup() {
 #####################################################################
 @test "log_debug prints nothing when DEBUG is not set" {
   run --separate-stderr log_debug "Debug information"
+  assert_success
   assert_stderr ""
 }
 
@@ -65,6 +66,7 @@ setup() {
 
 @test "_log_timestamp does nothing if NO_LOG_TIMESTAMP is set" {
   NO_LOG_TIMESTAMP=1 run _log_timestamp
+  assert_success
   assert_output ""
 }
 
