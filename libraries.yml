@@ -1,0 +1,14 @@
+# Example custom library:
+# The "prompt" library demonstrates how to create your own Bashly libs.
+# It provides two simple user input helpers:
+#   - ask.sh    → wait for a single keypress
+#   - prompt.sh → wait for full line input (Enter)
+prompts:
+  help: Add functions for prompting the user for answers to the lib directory.
+  files:
+    - source: "prompts/prompt.sh"
+      target: "%{user_lib_dir}/prompt.%{user_ext}"
+    - source: "prompts/ask.sh"
+      target: "%{user_lib_dir}/ask.%{user_ext}"
+
+## ... add more libraries below ...
