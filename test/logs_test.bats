@@ -56,15 +56,15 @@ setup() {
   assert_stderr --regexp '\[.+\] ERROR: Error occurred'
 }
 
-# log_timestamp
+# _log_timestamp
 #####################################################################
-@test "log_timestamp returns formatted timestamp" {
-  run log_timestamp
+@test "_log_timestamp returns formatted timestamp" {
+  run _log_timestamp
   assert_output --regexp '^\[[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}\] $'
 }
 
-@test "log_timestamp does nothing if NO_LOG_TIMESTAMP is set" {
-  NO_LOG_TIMESTAMP=1 run log_timestamp
+@test "_log_timestamp does nothing if NO_LOG_TIMESTAMP is set" {
+  NO_LOG_TIMESTAMP=1 run _log_timestamp
   assert_output ""
 }
 

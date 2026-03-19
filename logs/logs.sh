@@ -38,7 +38,7 @@ log_error() {
 
 ## Return a formatted timestamp for log messages.
 ## When NO_LOG_TIMESTAMP is set, do nothing.
-log_timestamp() {
+_log_timestamp() {
   [[ -n "${NO_LOG_TIMESTAMP:-}" ]] && return
 
   printf '[%s] ' "$(date +'%Y-%m-%d %H:%M:%S')"
@@ -48,5 +48,5 @@ log_timestamp() {
 _log() {
   local level="$1"
   shift
-  printf '%s%s: %s\n' "$(log_timestamp)" "${level}" "$*" >&2
+  printf '%s%s: %s\n' "$(_log_timestamp)" "${level}" "$*" >&2
 }
