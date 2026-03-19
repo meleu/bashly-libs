@@ -3,6 +3,8 @@
 # Prevent warnings about using `run` with flags
 bats_require_minimum_version 1.5.0
 
+# setup
+#####################################################################
 setup() {
   load 'test_helper/bats-support/load'
   load 'test_helper/bats-assert/load'
@@ -10,6 +12,8 @@ setup() {
   source "${BATS_TEST_DIRNAME}/../logs/logs.sh"
 }
 
+# log_debug
+#####################################################################
 @test "log_debug prints nothing when DEBUG is not set" {
   run --separate-stderr log_debug "Debug information"
   assert_stderr ""
@@ -30,22 +34,30 @@ setup() {
   assert_stderr --regexp '\[.+\] DEBUG: Debug information'
 }
 
+# log_info
+#####################################################################
 @test "log_info prints info message" {
   run --separate-stderr log_info "Starting script"
   assert_stderr --regexp '\[.+\] INFO: Starting script'
 }
 
+# log_warn
+#####################################################################
 @test "log_warn prints warning message" {
   run --separate-stderr log_warn "Warning message"
   assert_stderr --regexp '\[.+\] WARN: Warning message'
 }
 
+# log_error
+#####################################################################
 @test "log_error prints error message" {
   run --separate-stderr log_error "Error occurred"
   assert_stderr --regexp '\[.+\] ERROR: Error occurred'
 }
 
+# log_timestamp
+#####################################################################
 @test "logs_timestamp returns formatted timestamp" {
-  run logs_timestamp
+  run log_timestamp
   assert_output --regexp '^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$'
 }

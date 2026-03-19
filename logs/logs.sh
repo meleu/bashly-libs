@@ -7,7 +7,7 @@
 ## [2026-03-18 14:30:00] DEBUG: Debug information
 log_debug() {
   if [[ -n "${DEBUG:-}" ]]; then
-    printf '[%s] DEBUG: %s\n' "$(logs_timestamp)" "$*" >&2
+    printf '[%s] DEBUG: %s\n' "$(log_timestamp)" "$*" >&2
   fi
 }
 
@@ -17,7 +17,7 @@ log_debug() {
 ## $ log_info "Starting script"
 ## [2026-03-18 14:30:00] INFO: Starting script
 log_info() {
-  printf '[%s] INFO: %s\n' "$(logs_timestamp)" "$*" >&2
+  printf '[%s] INFO: %s\n' "$(log_timestamp)" "$*" >&2
 }
 
 ## Print a warning message to stderr.
@@ -26,7 +26,7 @@ log_info() {
 ## $ log_warn "Warning message"
 ## [2026-03-18 14:30:00] WARN: Warning message
 log_warn() {
-  printf '[%s] WARN: %s\n' "$(logs_timestamp)" "$*" >&2
+  printf '[%s] WARN: %s\n' "$(log_timestamp)" "$*" >&2
 }
 
 ## Print an error message to stderr.
@@ -35,10 +35,10 @@ log_warn() {
 ## log_error "Error occurred"
 ## [2026-03-18 14:30:00] ERROR: Error occurred
 log_error() {
-  printf '[%s] ERROR: %s\n' "$(logs_timestamp)" "$*" >&2
+  printf '[%s] ERROR: %s\n' "$(log_timestamp)" "$*" >&2
 }
 
 ## Return a formatted timestamp for log messages.
-logs_timestamp() {
+log_timestamp() {
   date +'%Y-%m-%d %H:%M:%S'
 }
