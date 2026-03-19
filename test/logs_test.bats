@@ -1,0 +1,51 @@
+#!/usr/bin/env bats
+
+# Prevent warnings about using `run` with flags
+bats_require_minimum_version 1.5.0
+
+setup() {
+  load 'test_helper/bats-support/load'
+  load 'test_helper/bats-assert/load'
+
+  source "${BATS_TEST_DIRNAME}/../logs/logs.sh"
+}
+
+@test "log_debug prints nothing when DEBUG is not set" {
+  run --separate-stderr log_debug "Debug information"
+  assert_stderr ""
+}
+
+@test "log_debug logs when DEBUG is an empty string" {
+  DEBUG="" run --separate-stderr log_debug "Debug information"
+  assert_stderr ""
+}
+
+@test "log_debug logs when DEBUG=1" {
+  DEBUG=1 run --separate-stderr log_debug "Debug information"
+  assert_stderr --regexp '\[.+\] DEBUG: Debug information'
+}
+
+@test "log_debug logs when DEBUG is any non-empty value" {
+  DEBUG=yes run --separate-stderr log_debug "Debug information"
+  assert_stderr --regexp '\[.+\] DEBUG: Debug information'
+}
+
+@test "log_info prints info message" {
+  run --separate-stderr log_info "Starting script"
+  assert_stderr --regexp '\[.+\] INFO: Starting script'
+}
+
+@test "log_warn prints warning message" {
+  run --separate-stderr log_warn "Warning message"
+  assert_stderr --regexp '\[.+\] WARN: Warning message'
+}
+
+@test "log_error prints error message" {
+  run --separate-stderr log_error "Error occurred"
+  assert_stderr --regexp '\[.+\] ERROR: Error occurred'
+}
+
+@test "logs_timestamp returns formatted timestamp" {
+  run logs_timestamp
+  assert_output --regexp '^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$'
+}
