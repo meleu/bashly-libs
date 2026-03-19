@@ -24,13 +24,14 @@ setup() {
   assert_stderr ""
 }
 
-@test "log_debug logs when DEBUG=1" {
-  DEBUG=1 run --separate-stderr log_debug "Debug information"
-  assert_stderr --regexp '\[.+\] DEBUG: Debug information'
-}
-
 @test "log_debug logs when DEBUG is any non-empty value" {
   DEBUG=yes run --separate-stderr log_debug "Debug information"
+  assert_stderr --regexp '\[.+\] DEBUG: Debug information'
+
+  DEBUG=1 run --separate-stderr log_debug "Debug information"
+  assert_stderr --regexp '\[.+\] DEBUG: Debug information'
+
+  DEBUG=anything run --separate-stderr log_debug "Debug information"
   assert_stderr --regexp '\[.+\] DEBUG: Debug information'
 }
 
@@ -57,7 +58,23 @@ setup() {
 
 # log_timestamp
 #####################################################################
-@test "logs_timestamp returns formatted timestamp" {
+@test "log_timestamp returns formatted timestamp" {
   run log_timestamp
-  assert_output --regexp '^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$'
+  assert_output --regexp '^\[[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}\] $'
+}
+
+@test "log_timestamp does nothing if NO_LOG_TIMESTAMP is set" {
+  NO_LOG_TIMESTAMP=1 run log_timestamp
+  assert_output ""
+}
+
+@test "NO_LOG_TIMESTAMP skips timestamp in log_* functions' output" {
+  NO_LOG_TIMESTAMP=1 run log_info "Starting script"
+  assert_output "INFO: Starting script"
+
+  NO_LOG_TIMESTAMP=1 run log_warn "Warning message"
+  assert_output "WARN: Warning message"
+
+  NO_LOG_TIMESTAMP=1 run log_error "Error occurred"
+  assert_output "ERROR: Error occurred"
 }
